@@ -1,0 +1,44 @@
+task/
+
+# intermediates files or directories
+.swp
+.log
+log/
+logs/
+
+# archives files
+.bak
+.7z
+.jar
+.rar
+.zip
+.gz
+.gzip
+.tgz
+
+# venv
+.env/
+.venv/
+
+# node
+node_modules/
+dist/
+
+# maven
+.mvn/
+target/
+
+# idea
+.idea/
+out/
+*.iws
+*.iml
+*.ipr
+
+# vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
