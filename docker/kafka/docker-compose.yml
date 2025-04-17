@@ -1,6 +1,7 @@
 services:
   broker:
     image: apache/kafka-native:4.0.0
+    restart: on-failure
     container_name: broker
     hostname: broker
     ports:

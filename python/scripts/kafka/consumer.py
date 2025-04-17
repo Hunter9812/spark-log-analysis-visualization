@@ -1,14 +1,27 @@
+import argparse
 from kafka import KafkaConsumer
 
-bootstrap_servers = 'localhost:9092'
+def main():
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(description="Kafka Consumer Script")
+    parser.add_argument("--topic", default="default-topic", help="Kafka topic to subscribe to")
+    parser.add_argument("--bootstrap-servers", default="localhost:9092", help="Kafka bootstrap servers (host:port)")
+    parser.add_argument("--group-id", default="default-group", help="Kafka consumer group ID")
 
-consumer = KafkaConsumer(
-    'default-topic',
-    bootstrap_servers=bootstrap_servers,
-    api_version=(4,0,0),
-    group_id='my-group'  # 使用消费者组以便于协同消费消息
-)
+    args = parser.parse_args()
 
-# 持续监听并打印接收到的消息
-for message in consumer:
-    print(message.value.decode("utf-8"))
+    # Initialize Kafka consumer
+    consumer = KafkaConsumer(
+        args.topic,
+        bootstrap_servers=args.bootstrap_servers,
+        group_id=args.group_id,
+        api_version=(4, 0, 0)
+    )
+
+    # Continuously listen for and print messages
+    print(f"Listening to topic '{args.topic}' on {args.bootstrap_servers} as group '{args.group_id}'...")
+    for message in consumer:
+        print(message.value.decode("utf-8"))
+
+if __name__ == "__main__":
+    main()

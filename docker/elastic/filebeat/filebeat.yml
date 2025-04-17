@@ -1,0 +1,26 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+# filebeat.autodiscover:
+#   providers:
+#     - type: docker
+#       hints.enabled: true
+
+# output.elasticsearch:
+#   hosts: '${ELASTICSEARCH_HOSTS:elasticsearch:9200}'
+#   username: '${ELASTICSEARCH_USERNAME:}'
+#   password: '${ELASTICSEARCH_PASSWORD:}'
+
+output.kafka:
+  # initial brokers for reading cluster metadata
+  hosts: ["broker:19092"]
+  # message topic selection + partitioning
+  topic: 'nginx-logs'
+  partition.round_robin:
+    reachable_only: false
+
+  required_acks: 1
+  compression: gzip
+  max_message_bytes: 1000000
