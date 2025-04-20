@@ -33,7 +33,9 @@ services:
     environment:
       - SERVERNAME=kibana
       - ELASTICSEARCH_HOSTS=http://es:9200
+      # - I18N_LOCALE=zh-CN
       - xpack.security.enabled=false
+      - xpack.reporting.roles.enabled=false
       - TZ=Asia/Shanghai
     depends_on:
       es:
@@ -50,7 +52,7 @@ services:
     container_name: filebeat
     user: root
     volumes:
-    - ./logs/nginx:/var/log/nginx:ro
+    - ./data/nginx:/var/log/nginx:ro
 
 volumes:
   esdata:

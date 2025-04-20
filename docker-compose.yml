@@ -7,30 +7,20 @@ services:
     ports:
       - 9092:9092
     environment:
-      # Kafka 节点的唯一标识符
       KAFKA_NODE_ID: 1
-      # Kafka 集群的唯一标识符
       CLUSTER_ID: '4L6g3nShT-eMCtK--X86sw'
-      # Kafka 容器的角色，即 broker 和 controller
       KAFKA_PROCESS_ROLES: 'broker,controller'
-      # Kafka 监听器，指定不同类型的监听器及其端口号
       KAFKA_LISTENERS: 'CONTROLLER://:29093,PLAINTEXT_HOST://:9092,PLAINTEXT://:19092'
-      # Kafka 对外“公布”的地址(客户端连接时使用)
       KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT_HOST://localhost:9092,PLAINTEXT://broker:19092'
-      # 经过身份验证的内部通信监听器的名称
       KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
-      # 安全协议指定为明文传输
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
-      # Kafka 宣布给客户端的地址和端口号
       KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
       KAFKA_CONTROLLER_QUORUM_VOTERS: '1@broker:29093'
-      # Kafka 内部主题和分区配置
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_NUM_PARTITIONS: 3
-      # MISC
       KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
       TZ: Asia/Shanghai
 
@@ -200,6 +190,7 @@ services:
       - SERVERNAME=kibana
       - ELASTICSEARCH_HOSTS=http://es:9200
       - xpack.security.enabled=false
+      - xpack.reporting.roles.enabled=false
       - TZ=Asia/Shanghai
     depends_on:
       es:
@@ -216,7 +207,7 @@ services:
     container_name: filebeat
     user: root
     volumes:
-    - ./docker/elastic/logs/nginx:/var/log/nginx:ro
+    - ./data/nginx:/var/log/nginx:ro
 
 volumes:
   esdata:
