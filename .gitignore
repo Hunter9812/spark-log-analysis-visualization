@@ -1,4 +1,5 @@
 data/
+.docker_data/
 
 # intermediates files or directories
 .swp
@@ -16,9 +17,11 @@ logs/
 .gzip
 .tgz
 
-# venv
+# python
 .env/
 .venv/
+__pycache__/
+.ipynb_checkpoints
 
 # node
 node_modules/
