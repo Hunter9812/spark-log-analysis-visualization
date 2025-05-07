@@ -1,0 +1,12 @@
+###
+GET http://localhost:8080/dauRealtime?td=2025-05-04 HTTP/1.1
+
+###
+GET http://localhost:8080/statsByItem?itemName=小米手机&date=2025-05-04&t=gender HTTP/1.1
+###
+GET http://localhost:8080/statsByItem?itemName=小米手机&date=2025-05-04&t=age HTTP/1.1
+
+###
+GET http://localhost:8080/detailByItem?date=2025-05-04&itemName=小米手机&pageNo=1&pageSize=3 HTTP/1.1
+###
+GET http://bigdata.gmall.com/detailByItem?date=2025-05-04&itemName=小米手机&pageNo=1&pageSize=3 HTTP/1.1

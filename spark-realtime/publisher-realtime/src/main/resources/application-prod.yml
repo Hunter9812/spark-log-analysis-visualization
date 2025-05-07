@@ -1,0 +1,7 @@
+server:
+  port: 8090
+
+elasticsearch:
+  host: es
+  port: 9200
+  scheme: http

@@ -27,4 +27,5 @@ object MyRedisUtils {
   def close(): Unit = {
     if (!jedisPool.isClosed) jedisPool.close()
   }
+
 }

@@ -84,8 +84,8 @@ object OdsBaseDbApp {
         // 事实表清单、维度表清单
         val factTables: util.Set[String] = jedis.smembers(redisFactKeys)
         val dimTables: util.Set[String] = jedis.smembers(redisDimKeys)
-        println("factTables: " + factTables)
-        println("dimTables: " + dimTables)
+//        println("factTables: " + factTables)
+//        println("dimTables: " + dimTables)
         val factTablesBC: Broadcast[util.Set[String]] = ssc.sparkContext.broadcast(factTables)
         val dimTablesBC: Broadcast[util.Set[String]] = ssc.sparkContext.broadcast(dimTables)
         jedis.close()
@@ -110,6 +110,11 @@ object OdsBaseDbApp {
                 if (factTablesBC.value.contains(tableName)) {
                   val dwdTopicName: String = s"DWD_${tableName.toUpperCase}_${opValue}"
                   MyKafkaUtils.send(dwdTopicName, data)
+
+                  // 模拟数据延迟
+                  if (tableName.equals("order_detail")) {
+                    Thread.sleep(200) // milliseconds
+                  }
                 }
                 if (dimTablesBC.value.contains(tableName)) {
                   val dataObj: JSONObject = jsonObj.getJSONObject("data")

@@ -47,7 +47,7 @@ object MyOffsetsUtils {
         val endOffset: Long = offsetRange.untilOffset
         offsets.put(partition.toString, endOffset.toString)
       }
-      println("提交offset: " + offsets)
+//      println("提交offset: " + offsets)
       // 往 Redis 中存
       val jedis: Jedis = MyRedisUtils.getJedisFromPool()
       val redisKey: String = s"offsets:$topic:$groupId"
@@ -68,7 +68,7 @@ object MyOffsetsUtils {
     val jedis: Jedis = MyRedisUtils.getJedisFromPool()
     val redisKey: String = s"offsets:$topic:$groupId"
     val offsets: util.Map[String, String] = jedis.hgetAll(redisKey)
-    println("读取到offset: " + offsets)
+//    println("读取到offset: " + offsets)
     val results: mutable.Map[TopicPartition, Long] = mutable.Map[TopicPartition, Long]()
     // 将java的map转换成scala的map进行迭代
     import scala.collection.JavaConverters._

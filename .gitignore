@@ -1,5 +1,6 @@
 data/
 .docker_data/
+es-plugins/
 
 # intermediates files or directories
 .swp

@@ -1,25 +1,28 @@
 #!/bin/bash
 
-# 要添加到 /etc/hosts 的容器名称列表（用空格分隔）
-CONTAINERS=("namenode" "datanode" "hive-metastore" "hive-server" "spark-master")
+# List of container names to add to /etc/hosts (space-separated)
+CONTAINERS=("namenode" "datanode" "hive-metastore" "hive-server" "spark-master" "spark-worker-1")
 
-# 标志行（便于脚本再次运行时识别更新内容）
+# Marker lines (used to identify and update entries during reruns)
 START_MARK="# >>> docker container mappings >>>"
 END_MARK="# <<< docker container mappings <<<"
 
-# 临时 hosts 内容
+# Temporary hosts file
 TMP_HOSTS=$(mktemp)
 
-# 备份原始 hosts
+# Backup original hosts file
 sudo cp /etc/hosts /etc/hosts.bak
 
-# 清理旧条目
+# Remove old entries between markers
 awk "/$START_MARK/{flag=1;next}/$END_MARK/{flag=0;next}!flag" /etc/hosts > "$TMP_HOSTS"
 
-# 写入标志头
+# Add start marker
 echo "$START_MARK" >> "$TMP_HOSTS"
 
-# 添加新的容器 IP 映射
+# Add custom static mapping
+echo "127.0.0.1   bigdata.gmall.com" >> "$TMP_HOSTS"
+
+# Add new container IP mappings
 for cname in "${CONTAINERS[@]}"; do
   ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$cname" 2>/dev/null)
   if [[ -n "$ip" ]]; then
@@ -29,12 +32,11 @@ for cname in "${CONTAINERS[@]}"; do
   fi
 done
 
-# 写入标志尾
+# Add end marker
 echo "$END_MARK" >> "$TMP_HOSTS"
 
-# 替换 hosts 文件（需要 sudo）
+# Replace hosts file (requires sudo)
 sudo cp "$TMP_HOSTS" /etc/hosts
 rm "$TMP_HOSTS"
 
-echo "/etc/hosts 已更新完成。"
-
+echo "/etc/hosts has been updated."

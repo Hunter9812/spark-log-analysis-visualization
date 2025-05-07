@@ -14,7 +14,7 @@ class MyRedisUtilsTest {
     @Test
     def setKeyAndValue(): Unit = {
         val jedis: Jedis = MyRedisUtils.getJedisFromPool()
-        jedis.set("fuck", "you")
+        jedis.set("fuck", "off")
         println(jedis.get("fuck"))
         jedis.close()
     }

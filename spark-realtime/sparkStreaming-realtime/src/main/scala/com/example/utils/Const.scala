@@ -10,4 +10,6 @@ object Const {
   final val REDIS_HOST = "redis.host"
   final val REDIS_PORT = "redis.port"
 
+  final val ES_PORT = "es.port"
+  final val ES_HOST = "es.host"
 }
